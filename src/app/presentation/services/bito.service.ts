@@ -1,5 +1,6 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 export interface ResponseBito{
   response: string
@@ -8,13 +9,11 @@ export interface ResponseBito{
   providedIn: 'root'
 })
 export class BitoService {
-  private readonly baseUrl = 'http://localhost:3000';
+  private readonly baseUrl = environment.baseURL;
   http = inject(HttpClient);
   
   useBitoCLI(prompt: string): Observable<ResponseBito>{
-    console.log(prompt);    
     const data = { prompt };
-
     return this.http.post<ResponseBito>(`${this.baseUrl}/bito/base`,data);
   }
 
@@ -23,8 +22,9 @@ export class BitoService {
     formData.append('prompt', JSON.stringify(prompt));
     formData.append('file', file,file.name);
 
+    //TODO AJUSTAR INTERFACCE PARA RESPUESTA QUITAR ANY
+    //TODO AJUSTAR RECIBIR RESPUESTA COMO ERROR
     // return this.http.post<ResponseBito>(`${this.baseUrl}/bito/file`,data);
     return this.http.post<any>(`${this.baseUrl}/bito/file`,formData);
-
   }
 }
