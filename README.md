@@ -1,4 +1,4 @@
-# Test Prompt
+# RVIA Prompt
 
 Este proyecto fue creado con [Angular CLI](https://github.com/angular/angular-cli) en la versión 17.0.0.
 
@@ -7,13 +7,13 @@ Este proyecto fue creado con [Angular CLI](https://github.com/angular/angular-cl
 1. Clona el repositorio:
 
     ```bash
-    git clone https://github.com/b1jaimes89/test-prompt-front.git
+    git clone https://github.com/b1jaimes89/RVIA-Prompt-Front.git
     ```
 
 2. Navega al directorio del proyecto:
 
     ```bash
-    cd test-prompt-front
+    cd RVIA-Prompt-Front
     ```
 
 3. Instala las dependencias:
