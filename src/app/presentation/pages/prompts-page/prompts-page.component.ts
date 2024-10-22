@@ -31,6 +31,8 @@ export default class PromptsPageComponent {
   file: File | undefined;
   response: string | null =  null;
   public isLoading = signal(false);
+  public isError = signal(false);
+  errorMessage: string | null = null;
   
   private bitoService = inject( BitoService );
   private fb = inject( FormBuilder );
@@ -78,29 +80,27 @@ export default class PromptsPageComponent {
   }
 
   onSubmit() {
-    if(this.form.valid){
+    if(this.form.invalid) return;
 
-      const file = this.form.controls['file'].value;
-      let prompt = '';
-      const boxes = this.textBoxes.controls;
-      boxes.forEach(box => prompt += `\n  ${box.value}` );
-      
-      this.isLoading.set(true);
-      this.bitoService.useBitoClIWithFile( prompt, file )
-        .subscribe({
-          next: (resp) => {
-            this.response = resp.response;
-            this.isLoading.set(false);
-          },
-          error: (e) => {
-            console.log('upsss... error en algo');
-            console.log(e);
-            this.isLoading.set(false);
-          }
-        });
-    }else{
-      console.log('no valido');
-    }
+    const file = this.form.controls['file'].value;
+    let prompt = '';
+    const boxes = this.textBoxes.controls;
+    boxes.forEach(box => prompt += `\n  ${box.value}` );
+    
+    this.isError.set(false);
+    this.isLoading.set(true);
+    this.bitoService.useBitoClIWithFile( prompt, file )
+      .subscribe({
+        next: (resp) => {
+          this.response = resp.response;
+          this.isLoading.set(false);
+        },
+        error: (e) => {
+          this.errorMessage = `${e.status} - ${e.error.message}`;
+          this.isLoading.set(false);
+          this.isError.set(true);
+        }
+      });
   }
 
   resetForm(): void {    
@@ -114,5 +114,7 @@ export default class PromptsPageComponent {
 
     this.form.setControl('textBoxes', this.fb.array([]));
     this.response = null;
+    this.errorMessage = null;
+    this.isError.set(false);
   }
 }
