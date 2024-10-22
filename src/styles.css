@@ -39,15 +39,12 @@ em {
 }
 
 .chat-container {
-  @apply flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-white bg-opacity-5 h-[calc(100vh-90px)] p-4 w-[calc(100vw-500px)];
+  @apply flex flex-col h-full w-full p-4;
 }
 
 .chat-messages {
-  @apply flex flex-col h-full overflow-x-auto mb-4 overflow-scroll;
+  @apply flex flex-col h-full overflow-x-auto mb-4;
 }
-
-
-/* Animations */
 
 .fade-in { animation: fadeIn .3s; }
 

@@ -1,18 +1,24 @@
-<section class="chat-container text-black">
-    <form [formGroup]="form" class="flex flex-col">
-        <div class="form-group flex flex-col items-center">
-            <label for="valueSelect" class="form-label mb-4 text-white">Selecciona una opción:</label>
-            <select id="valueSelect" class="custom-select" 
-                    formControlName="option" >
-                <option value="" disabled selected>Elige una opción</option>
-                @for( opt of optionSchemas; track opt.id){
-                    <option [value]="opt.id">{{opt.value}}</option>
-                }
-            </select>
+<section class="chat-container h-full w-full text-black">
+    <form [formGroup]="form" class="flex-grow">
+        <div class="p-1">
+            <div class="flex flex-col">
+                <label for="valueSelect" class="form-label mb-4 text-white">Selecciona un tipo de esquema:</label>
+                <div>
+                    <select id="valueSelect" class="custom-select" 
+                            formControlName="option" >
+                        <option value="" disabled selected>Elige una esquema</option>
+                        @for( opt of optionSchemas; track opt.id){
+                            <option [value]="opt.id">{{opt.value}}</option>
+                        }
+                    </select>
+                </div>
+            </div>
         </div>
-    
+
         @if( textBoxes.controls.length > 0 ){
-            <div class="grid grid-cols-3 gap-4 w-full mt-6 items-center" formArrayName="textBoxes">
+            <div formArrayName="textBoxes"
+                class="grid gap-4 w-full mt-6 items-center"
+                [ngClass]="form.controls['option'].value === '3' ? 'grid-cols-2' : 'grid-cols-3'" >
                 @for (control of textBoxes.controls; track $index) {
                     <div class="w-21rem">
                         <label class="text-white" for="textBox{{ $index }}">{{ labelText($index)}}</label>
@@ -28,42 +34,40 @@
             </div>
             
             <div class="mt-4 w-21rem text-black flex justify-around gap-5">
-                <div class="flex flex-col text-center">
-                    <label class="text-white" for="textBoxprev">Archivo de código:</label>
-                    <div class="mt-2 flex">
-                        <button
-                            (click)="fileInput.click()"
-                            class="flex items-center justify-center text-gray-400 btn-primary">
-                            <i class="fa-solid fa-paperclip text-xl"></i>
-                        </button>
-                    
-                        <input
-                            type="file"
-                            #fileInput
-                            hidden
-                            (change)="handleSelectedFile($event)"
-                        >
-    
-                        @if(form.controls['file'].value !== null){
-                            <p class="text-white my-auto ml-2">{{ form.controls['file'].value.name }}</p>
-                        }
-                    </div>
+                <div class="flex text-center">
+                    <button
+                        (click)="fileInput.click()"
+                        class="flex items-center justify-center text-gray-400 btn-primary">
+                        <i class="fa-solid fa-paperclip text-xl"></i>
+                    </button>
+                
+                    <input
+                        type="file"
+                        #fileInput
+                        hidden
+                        (change)="handleSelectedFile($event)"
+                    />
+
+                    @if(form.controls['file'].value !== null){
+                        <p class="text-white my-auto ml-2">{{ form.controls['file'].value.name }}</p>
+                    }@else {
+                        <p class="text-white my-auto ml-2">Selecciona un archivo</p>
+                    }
                 </div>
 
-                <div class="flex flex-col gap-4">
+                <div class="flex gap-4">
+                    <button (click)="resetForm()" class="block my-auto w-full btn-primary">
+                        Limpiar
+                    </button>
                     @if (form.valid) {
                         <button 
                             type="button" 
                             (click)="onSubmit()" 
-                            class="block my-auto w-full btn-primary"
+                            class="block my-auto w-full btn-primary whitespace-nowrap"
                             [disabled]="isLoading()">
                             Probar prompt
                         </button>
                     }
-
-                    <button (click)="resetForm()" class="block my-auto w-full btn-primary">
-                        Limpiar
-                    </button>
                 </div>
             </div>
         }
@@ -76,7 +80,7 @@
     }
 
     @if(response !== null && !isLoading()){
-        <div class="chat-messages px-4 mt-4">
+        <div class="chat-messages px-4 mt-4 flex-grow">
             <div class="text-sm bg-black bg-opacity-25 py-2 px-4 shadow rounded-xl text-white ">
                 <p style="white-space: pre-line;">{{ response }}</p>
             </div>
