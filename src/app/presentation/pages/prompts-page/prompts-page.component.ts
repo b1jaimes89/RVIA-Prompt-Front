@@ -2,11 +2,12 @@ import { Component, inject, signal } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BitoService } from 'app/presentation/services/bito.service';
 import { TypingLoaderComponent } from "../../components/typingLoader/typingLoader.component";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-prompts-page',
   standalone: true,
-  imports: [ReactiveFormsModule, TypingLoaderComponent],
+  imports: [ReactiveFormsModule, TypingLoaderComponent, CommonModule],
   templateUrl: './prompts-page.component.html',
   styleUrl: './prompts-page.component.css'
 })
@@ -86,10 +87,17 @@ export default class PromptsPageComponent {
       
       this.isLoading.set(true);
       this.bitoService.useBitoClIWithFile( prompt, file )
-      .subscribe( resp => {
-        this.response = resp.response;
-        this.isLoading.set(false);
-      })
+        .subscribe({
+          next: (resp) => {
+            this.response = resp.response;
+            this.isLoading.set(false);
+          },
+          error: (e) => {
+            console.log('upsss... error en algo');
+            console.log(e);
+            this.isLoading.set(false);
+          }
+        });
     }else{
       console.log('no valido');
     }

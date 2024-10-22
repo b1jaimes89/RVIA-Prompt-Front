@@ -5,7 +5,7 @@
     <h1
       class="font-bold text-lg lg:text-3xl bg-gradient-to-br from-white via-white/50 bg-clip-text text-transparent"
     >
-      AngularGPT<span class="text-indigo-500">.</span>
+      RVIA-Prompt<span class="text-indigo-500">.</span>
     </h1>
     <span class="text-xl">Bienvenido</span>
 
@@ -25,11 +25,11 @@
   </nav>
 
   <section
-    class="mx-3 sm:mx-20 flex flex-col w-full h-[calc(100vh-50px)] bg-white bg-opacity-10 p-5 rounded-3xl"
+    class="mx-3 flex flex-col w-full h-[calc(100vh-50px)] bg-white bg-opacity-10 p-5 rounded-3xl"
   >
-    <div class="flex h-full flex-row">
-      <div class="flex flex-col flex-auto p-1">
-        <router-outlet />
+    <div class="flex h-full flex-grow bg-white bg-opacity-5 rounded-xl" >
+      <div class="flex flex-col overflow-y-auto w-full h-full">
+        <router-outlet/>
       </div>
     </div>
   </section>
