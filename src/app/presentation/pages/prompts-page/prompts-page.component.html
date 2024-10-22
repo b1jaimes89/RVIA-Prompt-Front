@@ -1,0 +1,85 @@
+<section class="chat-container text-black">
+    <form [formGroup]="form" class="flex flex-col">
+        <div class="form-group flex flex-col items-center">
+            <label for="valueSelect" class="form-label mb-4 text-white">Selecciona una opción:</label>
+            <select id="valueSelect" class="custom-select" 
+                    formControlName="option" >
+                <option value="" disabled selected>Elige una opción</option>
+                @for( opt of optionSchemas; track opt.id){
+                    <option [value]="opt.id">{{opt.value}}</option>
+                }
+            </select>
+        </div>
+    
+        @if( textBoxes.controls.length > 0 ){
+            <div class="grid grid-cols-3 gap-4 w-full mt-6 items-center" formArrayName="textBoxes">
+                @for (control of textBoxes.controls; track $index) {
+                    <div class="w-21rem">
+                        <label class="text-white" for="textBox{{ $index }}">{{ labelText($index)}}</label>
+                        <textarea 
+                            id="textBox{{ $index }}"
+                            [formControlName]="$index" 
+                            rows="4"
+                            class="block w-full p-2 border rounded min-h-56"  
+                        >
+                       </textarea>
+                    </div>
+                }
+            </div>
+            
+            <div class="mt-4 w-21rem text-black flex justify-around gap-5">
+                <div class="flex flex-col text-center">
+                    <label class="text-white" for="textBoxprev">Archivo de código:</label>
+                    <div class="mt-2 flex">
+                        <button
+                            (click)="fileInput.click()"
+                            class="flex items-center justify-center text-gray-400 btn-primary">
+                            <i class="fa-solid fa-paperclip text-xl"></i>
+                        </button>
+                    
+                        <input
+                            type="file"
+                            #fileInput
+                            hidden
+                            (change)="handleSelectedFile($event)"
+                        >
+    
+                        @if(form.controls['file'].value !== null){
+                            <p class="text-white my-auto ml-2">{{ form.controls['file'].value.name }}</p>
+                        }
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-4">
+                    @if (form.valid) {
+                        <button 
+                            type="button" 
+                            (click)="onSubmit()" 
+                            class="block my-auto w-full btn-primary"
+                            [disabled]="isLoading()">
+                            Probar prompt
+                        </button>
+                    }
+
+                    <button (click)="resetForm()" class="block my-auto w-full btn-primary">
+                        Limpiar
+                    </button>
+                </div>
+            </div>
+        }
+    </form>
+
+    @if (isLoading()) {
+        <div class="flex mt-4 justify-center">
+            <app-typing-loader />
+        </div>
+    }
+
+    @if(response !== null && !isLoading()){
+        <div class="chat-messages px-4 mt-4">
+            <div class="text-sm bg-black bg-opacity-25 py-2 px-4 shadow rounded-xl text-white ">
+                <p style="white-space: pre-line;">{{ response }}</p>
+            </div>
+        </div>
+    }
+</section>
