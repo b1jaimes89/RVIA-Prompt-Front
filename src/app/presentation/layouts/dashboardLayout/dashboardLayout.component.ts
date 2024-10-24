@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { SidebarMenuItemComponent } from '../../components/sidebarMenuItem/sidebarMenuItem.component';
+import { SidebarMenuItemComponent } from '@components/index';
 import { routes } from '../../../app.routes';
 
 @Component( {

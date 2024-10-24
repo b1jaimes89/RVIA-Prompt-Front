@@ -2,7 +2,7 @@ import { Component, inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-import { StarRatingComponent } from "../star-rating/star-rating.component";
+import { StarRatingComponent } from "@components/index";
 import { PromptService } from '../../services/prompt.service';
 import { Language, Schema } from '@interfaces/index';
 

@@ -87,6 +87,5 @@ export class PromptService {
 
   savePrompt(info: InfoToSavePrompt ) {
     console.log(info);
-
   }
 }

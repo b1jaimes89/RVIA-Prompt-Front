@@ -1,14 +1,13 @@
 import { Component, inject, signal, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TypingLoaderComponent } from "../../components/typingLoader/typingLoader.component";
 import { CommonModule } from '@angular/common';
-import { ModalComponent } from "../../components/modal/modal.component";
-import { FormSavePromptComponent } from "../../components/form-save-prompt/form-save-prompt.component";
+
+import { TypingLoaderComponent, ModalComponent, FormSavePromptComponent } from '@components/index'
+import { Schema } from '@interfaces/index';
 import { PromptService } from '../../services/prompt.service';
-import { Schema } from '../../../interfaces';
 
 @Component({
-  selector: 'app-prompts-page',
+  selector: 'prompts-page',
   standalone: true,
   imports: [ReactiveFormsModule, TypingLoaderComponent, CommonModule, ModalComponent, FormSavePromptComponent],
   templateUrl: './prompts-page.component.html',
