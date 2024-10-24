@@ -1,14 +1,11 @@
-
-
 export * from './chat-bubbles/chatMessage/chatMessage.component';
 export * from './chat-bubbles/myMessage/myMessage.component';
-export * from './chat-bubbles/gptMessageOrthography/gptMessageOrthography.component';
+
+export * from './form-save-prompt/form-save-prompt.component';
+export * from './modal/modal.component';
 
 export * from './sidebarMenuItem/sidebarMenuItem.component';
 
-export * from './text-boxes/textMessageBox/textMessageBox.component';
-export * from './text-boxes/textMessageBoxFile/textMessageBoxFile.component';
-export * from './text-boxes/textMessageBoxSelect/textMessageBoxSelect.component';
-
+export * from './star-rating/star-rating.component';
 
 export * from './typingLoader/typingLoader.component';

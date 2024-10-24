@@ -1,0 +1,14 @@
+<div class="flex justify-center text-lg space-x-1 my-3 p-3" (mouseleave)="resetRating()">
+    <ng-container *ngFor="let star of starsArray; let i = index"> 
+        <i
+            class="cursor-pointer fa-star text-indigo-500"
+            [ngClass]="{
+                'fas': star <= (hoverRating || rating),
+                'far': star > (hoverRating || rating),
+            }"
+            (mouseover)="setHoverRating(star)"
+            (click)="setRating(star)"
+            >
+        </i>
+    </ng-container>
+</div>

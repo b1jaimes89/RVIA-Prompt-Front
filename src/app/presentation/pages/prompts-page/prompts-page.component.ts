@@ -1,19 +1,25 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { BitoService } from 'app/presentation/services/bito.service';
 import { TypingLoaderComponent } from "../../components/typingLoader/typingLoader.component";
 import { CommonModule } from '@angular/common';
+import { ModalComponent } from "../../components/modal/modal.component";
+import { FormSavePromptComponent } from "../../components/form-save-prompt/form-save-prompt.component";
+import { PromptService } from '../../services/prompt.service';
+import { Schema } from '../../../interfaces';
 
 @Component({
   selector: 'app-prompts-page',
   standalone: true,
-  imports: [ReactiveFormsModule, TypingLoaderComponent, CommonModule],
+  imports: [ReactiveFormsModule, TypingLoaderComponent, CommonModule, ModalComponent, FormSavePromptComponent],
   templateUrl: './prompts-page.component.html',
   styleUrl: './prompts-page.component.css'
 })
 export default class PromptsPageComponent {
+  @ViewChild('modalSavePrompt') modalSavePrompt!: ModalComponent;
+  isOpenModal = false;
+  prompt: string = '';
 
-  optionSchemas = [
+  optionSchemas: Schema[] = [
     {id: 0, value: 'RTF'},
     {id: 1, value: 'TAO'},
     {id: 2, value: 'BAB'},
@@ -33,8 +39,8 @@ export default class PromptsPageComponent {
   public isLoading = signal(false);
   public isError = signal(false);
   errorMessage: string | null = null;
-  
-  private bitoService = inject( BitoService );
+
+  private promptService = inject( PromptService );
   private fb = inject( FormBuilder );
 
   ngOnInit(): void {
@@ -79,19 +85,25 @@ export default class PromptsPageComponent {
     this.form.controls['file'].setValue(file);
   }
 
+  joinPromt(): string {
+    let prompt = '';
+    const boxes = this.textBoxes.controls;
+    boxes.forEach(box => prompt += `\n  ${box.value}` );
+    return prompt;
+  }
+
   onSubmit() {
     if(this.form.invalid) return;
 
     const file = this.form.controls['file'].value;
-    let prompt = '';
-    const boxes = this.textBoxes.controls;
-    boxes.forEach(box => prompt += `\n  ${box.value}` );
-    
+    this.prompt = this.joinPromt();
+
     this.isError.set(false);
     this.isLoading.set(true);
-    this.bitoService.useBitoClIWithFile( prompt, file )
+    this.promptService.usePromptClIWithFile( this.prompt, file )
       .subscribe({
         next: (resp) => {
+          console.log(resp);
           this.response = resp.response;
           this.isLoading.set(false);
         },
@@ -116,5 +128,9 @@ export default class PromptsPageComponent {
     this.response = null;
     this.errorMessage = null;
     this.isError.set(false);
+  }
+
+  savePrompt(): void {
+    this.isOpenModal = true;
   }
 }

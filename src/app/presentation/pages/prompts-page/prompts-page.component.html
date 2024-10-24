@@ -1,3 +1,14 @@
+@if (isOpenModal) {
+    <rvia-modal #modalSavePrompt 
+        [title]="'Guardar prompt'" 
+        (clickClose)="isOpenModal = false">
+            <form-save-prompt 
+                [prompt]="prompt" 
+                [schema]="optionSchemas[form.controls['option'].value]"
+            />
+    </rvia-modal>
+}
+
 <section class="chat-container h-full w-full text-black">
     <form [formGroup]="form" class="flex-grow">
         <div class="p-1">
@@ -84,6 +95,14 @@
             <div class="text-sm bg-black bg-opacity-25 py-2 px-4 shadow rounded-xl text-white ">
                 <p style="white-space: pre-line;">{{ response }}</p>
             </div>
+        </div>
+        <div class="flex justify-end px-4">
+            <button 
+                (click)="savePrompt()" 
+                class="btn btn-primary">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Guardar prompt
+            </button>
         </div>
     }
 

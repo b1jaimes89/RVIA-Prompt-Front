@@ -1,4 +1,3 @@
-
-
-export * from './message.interface';
-export * from './orthography.response';
+export * from './schema.interface';
+export * from './lenguage.interface';
+export * from './infoSavePrompt.interface';
